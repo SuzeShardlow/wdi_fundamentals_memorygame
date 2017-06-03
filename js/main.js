@@ -23,6 +23,10 @@ var checkForMatch = function() {
 
 		alert(cardsInPlay[0] === cardsInPlay[1] ? "You found a match!" : "Sorry, try again.");
 
+		/* In Assignment 8 you asked for alerts but in Assignment 9.7 you refer to the console log.
+		I have stuck with the alerts.
+		*/ 
+
 	}
 
 }
