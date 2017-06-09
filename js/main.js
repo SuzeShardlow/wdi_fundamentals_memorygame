@@ -1,5 +1,9 @@
 console.log("Up and running!");
 
+var score = 0;
+
+console.log("Current score is " + score);
+
 var cards = [
 
 	{
@@ -26,34 +30,9 @@ var cards = [
 
 var cardsInPlay = [];
 
-var checkForMatch = function() {
+var flipCard = function() {
 
-	/* Assignment 8.12
-	You can achieve the same thing in two different ways
-	Option One:
-		// if (cardsInPlay.length === 2) {
-		//	if (cardOne === cardTwo) {
-		//		alert('You found a match!')
-		//	} else {
-		//		alert('Sorry, try again.');
-		//	}
-		//  }
-
-	Option Two: */
-
-	if (cardsInPlay.length === 2) {
-
-		alert(cardsInPlay[0] === cardsInPlay[1] ? "You found a match!" : "Sorry, try again.");
-
-		/* In Assignment 8 you asked for alerts but in Assignment 9.7 you refer to the console log.
-		I have stuck with the alerts.
-		*/ 
-
-	}
-
-}
-
-var flipCard = function(cardId) {
+	var cardId = this.getAttribute('data-id')
 
 	console.log("User flipped " + cards[cardId].rank);
 
@@ -62,10 +41,58 @@ var flipCard = function(cardId) {
 	console.log(cards[cardId].cardImage);
 	console.log(cards[cardId].suit);
 
+	this.setAttribute('src', (cards[cardId].cardImage));
+
 	checkForMatch();
+
+};
+
+var checkForMatch = function() {
+
+		if (cardsInPlay.length === 2) {
+			if (cardsInPlay[0] === cardsInPlay[1]) {
+				score++
+				alert('You found a match!  Your total score is ' + score + '.')
+			} else {
+				alert('Sorry, try again.  Your total score is ' + score + '.')
+		}
+			console.log("Current total score is " + score)
+	}
+}
+
+var resetCards = function() {
+
+	cardsInPlay = [];
+
+	var newCards = document.getElementById('game-board').children;
+
+	for (var i = 0; i < newCards.length; i++) {
+
+		if (newCards[i].tagName === 'IMG') {
+
+			newCards[i].setAttribute('src', 'images/back.png');
+		}
+	}
+}
+
+var createBoard = function() {
+
+	for (var i = 0; i < cards.length; i++) {
+
+	var cardElement = document.createElement('img');
+
+	cardElement.setAttribute('src', 'images/back.png');
+
+	cardElement.setAttribute('data-id', i);
+
+	cardElement.addEventListener('click', flipCard);
+
+	document.getElementById('game-board').appendChild(cardElement);
+
+	}
+
+	document.getElementById('button').addEventListener('click', resetCards);	
 
 }
 
-flipCard(0);
-
-flipCard(2);
+createBoard();
